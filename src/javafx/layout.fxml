@@ -1,0 +1,46 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.text.Text?>
+
+
+<GridPane fx:controller="javafx.FormController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <padding>
+        <Insets top="60" right="60" bottom="40" left="40"/>
+    </padding>
+
+<!--    TITLE-->
+    <Label text="PASSWORD MANAGER"
+           fx:id="appTitle"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="0" GridPane.columnSpan="2"
+           GridPane.rowSpan="1" GridPane.halignment="CENTER">
+        <GridPane.margin>
+            <Insets top="20" right="0" bottom="12" left="0"></Insets>
+        </GridPane.margin>
+    </Label>
+
+<!--   PASSWORD  -->
+    <Label text="Master Password:"
+           fx:id="passwordLabel"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="1"/>
+
+    <PasswordField fx:id="passwordField"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+<!--    SUBMIT BTN-->
+    <Button text="Sign in" fx:id="signInButton" onAction="#handleSignIn"
+            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+<!--    INCORRECT PASSWORD-->
+    <Label text=""
+           fx:id="errorLabel"
+           GridPane.columnIndex="0"
+           GridPane.rowIndex="3"/>
+</GridPane>
