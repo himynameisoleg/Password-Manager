@@ -9,7 +9,6 @@ import org.json.simple.parser.JSONParser;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -22,7 +21,7 @@ import java.util.List;
 
 public class LayoutController {
     PasswordModel passwordModel;
-//    TODO INNER CLASS
+    IOHelper io;
 
     @FXML
     private GridPane loginGrid;
@@ -31,12 +30,7 @@ public class LayoutController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private Label passwordLabel;
-    @FXML
     private Label errorLabel;
-    @FXML
-    private Button signInButton;
-
     @FXML
     private ListView<String> passwordsListView;
     @FXML
@@ -50,10 +44,72 @@ public class LayoutController {
     @FXML
     private Label saveError;
 
+    public class IOHelper {
+        public void getPasswordsFromFile() {
+            File file = new File("./src/javafx/passwords.json");
+            JSONParser parser = new JSONParser();
+
+            try (FileReader fr = new FileReader(file)) {
+                Object parsed = parser.parse(fr);
+                JSONObject passwordObj = (JSONObject) parsed;
+
+                JSONArray passwords = (JSONArray) passwordObj.get("passwords");
+                passwords.forEach(p -> passwordModel.getPasswordsList().add((JSONObject) p));
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            } catch (ParseException pe) {
+                System.out.println(pe.getMessage());
+            }
+        }
+
+        public void savePasswordsToFile() {
+            File file = new File("./src/javafx/passwords.json");
+
+            try (BufferedWriter wr = new BufferedWriter(new FileWriter(file, false))) {
+                wr.write(buildJsonFromPasswords());
+                saveButton.setDisable(true);
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        public String buildJsonFromPasswords() {
+            JSONObject json = new JSONObject();
+            JSONArray arr = new JSONArray();
+
+            json.put("masterPassword", encryptPassword(passwordModel.getMASTER_PASSWORD()));
+            passwordModel.getPasswordsList().forEach(p -> arr.add(p));
+
+            json.put("passwords", arr);
+
+            return json.toJSONString();
+        }
+
+        public String encryptPassword(String password) {
+            try {
+                MessageDigest sha = MessageDigest.getInstance("SHA-256");
+                byte[] hash = sha.digest(password.getBytes());
+
+                BigInteger hex = new BigInteger(1, hash);
+                StringBuilder hexString = new StringBuilder(hex.toString(16));
+                while (hexString.length() < 32) {
+                    hexString.insert(0, '0');
+                }
+
+                return hexString.toString();
+            } catch (NoSuchAlgorithmException ex) {
+                System.out.println(ex.getMessage());
+                return "";
+            }
+        }
+    }
 
     public LayoutController() {
-        getPasswordsFromFile();
+        io = new IOHelper();
         passwordModel = new PasswordModel();
+
+        io.getPasswordsFromFile();
     }
 
     public void handleSignIn() {
@@ -65,48 +121,6 @@ public class LayoutController {
             errorLabel.setText("Password is incorrect. * (Hint its: CS420)");
             errorLabel.setTextFill(Color.RED);
         }
-    }
-
-    public void getPasswordsFromFile() {
-        File file = new File("./src/javafx/passwords.json");
-        JSONParser parser = new JSONParser();
-
-        try (FileReader fr = new FileReader(file)) {
-            Object parsed = parser.parse(fr);
-            JSONObject passwordObj = (JSONObject) parsed;
-
-            JSONArray passwords = (JSONArray) passwordObj.get("passwords");
-            passwords.forEach(p -> passwordModel.getPasswordsList().add((JSONObject) p));
-
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        } catch (ParseException pe) {
-            System.out.println(pe.getMessage());
-        }
-    }
-
-    public String buildJsonFromPasswords() {
-        JSONObject json = new JSONObject();
-        JSONArray arr = new JSONArray();
-
-        json.put("masterPassword", encryptPassword(passwordModel.getMASTER_PASSWORD()));
-        passwordModel.getPasswordsList().forEach(p -> arr.add(p));
-
-        json.put("passwords", arr);
-
-        return json.toJSONString();
-    }
-
-    public void savePasswordsToFile() {
-        File file = new File("./src/javafx/passwords.json");
-
-        try (BufferedWriter wr = new BufferedWriter(new FileWriter(file, false))) {
-            wr.write(buildJsonFromPasswords());
-            saveButton.setDisable(true);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-
     }
 
     public void addPasswordsInListView() {
@@ -144,6 +158,10 @@ public class LayoutController {
         }
     }
 
+    public void saveFileJson() {
+        io.savePasswordsToFile();
+    }
+
     public boolean formInputHasErrors() {
         boolean hasErrors = false;
         saveError.setText("");
@@ -158,21 +176,5 @@ public class LayoutController {
         return hasErrors;
     }
 
-    public String encryptPassword(String password) {
-        try {
-            MessageDigest sha = MessageDigest.getInstance("SHA-256");
-            byte[] hash = sha.digest(password.getBytes());
 
-            BigInteger hex = new BigInteger(1, hash);
-            StringBuilder hexString = new StringBuilder(hex.toString(16));
-            while (hexString.length() < 32) {
-                hexString.insert(0, '0');
-            }
-
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println(ex.getMessage());
-            return "";
-        }
-    }
 }

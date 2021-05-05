@@ -90,7 +90,7 @@
             <Button text="Add New" fx:id="addNewButton" onAction="#addNewPassword"
                     styleClass="custom-button"
                     GridPane.columnIndex="0" GridPane.rowIndex="7"/>
-            <Button text="Save" fx:id="saveButton" onAction="#savePasswordsToFile"
+            <Button text="Save" fx:id="saveButton" onAction="#saveFileJson"
                     disable="true"
                     styleClass="custom-button"
                     GridPane.columnIndex="0" GridPane.rowIndex="8"/>
