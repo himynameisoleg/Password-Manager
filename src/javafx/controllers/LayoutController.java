@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LayoutController {
     private final String MASTER_PASSWORD = "CS420";
@@ -38,11 +40,15 @@ public class LayoutController {
     @FXML
     private ListView<String> passwordsListView;
     @FXML
-    private TextField addWebsiteField;
+    private TextField addNameField;
     @FXML
-    private TextField addUsernameField;
+    private TextField addLoginField;
     @FXML
     private TextField addPasswordField;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Label saveError;
 
 
     public LayoutController() {
@@ -55,7 +61,7 @@ public class LayoutController {
             loginGrid.setVisible(false);
             addNewGrid.setVisible(true);
         } else {
-            errorLabel.setText("Password is incorrect.");
+            errorLabel.setText("Password is incorrect. * (Hint its: CS420)");
             errorLabel.setTextFill(Color.RED);
         }
     }
@@ -83,7 +89,7 @@ public class LayoutController {
         JSONObject json = new JSONObject();
         JSONArray arr = new JSONArray();
 
-        json.put("masterPassword", encryptPassowrd(MASTER_PASSWORD));
+        json.put("masterPassword", encryptPassword(MASTER_PASSWORD));
         passwordList.forEach(p -> arr.add(p));
 
         json.put("passwords", arr);
@@ -96,6 +102,7 @@ public class LayoutController {
 
         try (BufferedWriter wr = new BufferedWriter(new FileWriter(file, false))) {
             wr.write(buildJsonFromPasswords());
+            saveButton.setDisable(true);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -106,12 +113,12 @@ public class LayoutController {
         passwordsListView.getItems().clear();
 
         passwordList.forEach(p -> {
-            String website = (String) p.get("website");
-            String username = (String) p.get("username");
+            String website = (String) p.get("name");
+            String username = (String) p.get("login");
             String password = (String) p.get("password");
 
             String item =
-                    "site: " + website + "\n" + "username: " + username + "\n" + "password: " + password;
+                    "name: " + website + "\n" + "login: " + username + "\n" + "password: " + password;
 
             passwordsListView.getItems().add(item);
         });
@@ -121,32 +128,47 @@ public class LayoutController {
         if (!formInputHasErrors()) {
             JSONObject item = new JSONObject();
 
-            item.put("website", addWebsiteField.getText());
-            item.put("username", addUsernameField.getText());
+            item.put("name", addNameField.getText());
+            item.put("login", addLoginField.getText());
             item.put("password", addPasswordField.getText());
 
             passwordList.add(item);
 
-            addWebsiteField.clear();
-            addUsernameField.clear();
+            addNameField.clear();
+            addLoginField.clear();
             addPasswordField.clear();
 
             addPasswordsInListView();
+            saveButton.setDisable(false);
         }
     }
 
     public boolean formInputHasErrors() {
-//        TODO displauy error if any field is empty
-        return false;
+        boolean hasErrors = false;
+        saveError.setText("");
+        ArrayList<TextField> list = new ArrayList<>(List.of(addLoginField, addNameField, addPasswordField));
+        for (TextField field : list) {
+            if (field.getText() == null || field.getText().isEmpty()) {
+                saveError.setText("Please confirm all fields.");
+                saveError.setTextFill(Color.RED);
+                hasErrors = true;
+            }
+        }
+        return hasErrors;
     }
 
-    public String encryptPassowrd(String password) {
+    public String encryptPassword(String password) {
         try {
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            byte[] message = md5.digest(password.getBytes());
-            String hash = message.toString();
-            System.out.println(hash);
-            return hash;
+            MessageDigest sha = MessageDigest.getInstance("SHA-256");
+            byte[] hash = sha.digest(password.getBytes());
+
+            BigInteger hex = new BigInteger(1, hash);
+            StringBuilder hexString = new StringBuilder(hex.toString(16));
+            while (hexString.length() < 32) {
+                hexString.insert(0, '0');
+            }
+
+            return hexString.toString();
         } catch (NoSuchAlgorithmException ex) {
             System.out.println(ex.getMessage());
             return "";

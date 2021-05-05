@@ -30,16 +30,18 @@
         </Label>
 
         <!--   PASSWORD  -->
-        <Label text="Master Password: *(hint:CS420)"
+        <Label text="Master Password:"
                fx:id="passwordLabel"
                GridPane.columnIndex="0"
                GridPane.rowIndex="1"/>
 
         <PasswordField fx:id="passwordField"
+                       onAction="#handleSignIn"
                        GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
         <!--    SUBMIT BTN-->
         <Button text="Sign in" fx:id="signInButton" onAction="#handleSignIn"
+                styleClass="custom-button"
                 GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
         <!--    INCORRECT PASSWORD-->
@@ -60,16 +62,21 @@
         <GridPane
                 xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
                 GridPane.rowIndex="0" GridPane.columnIndex="0">
+            <GridPane.margin>
+                <Insets right="30" />
+            </GridPane.margin>
 
-            <Label text="Website: "
+            <Label text="Name: "
                    GridPane.rowIndex="0"/>
             <TextField
-                    fx:id="addWebsiteField"
+                    fx:id="addNameField"
+                    promptText="http://google.com"
                     GridPane.rowIndex="1"/>
-            <Label text="Username:"
+            <Label text="Login:"
                    GridPane.rowIndex="2"/>
             <TextField
-                    fx:id="addUsernameField"
+                    fx:id="addLoginField"
+                    promptText="Username"
                     GridPane.rowIndex="3"/>
             <Label text="Password:"
                    GridPane.rowIndex="4"/>
@@ -77,22 +84,31 @@
                     fx:id="addPasswordField"
                     GridPane.rowIndex="5"/>
 
+
+            <Label fx:id="saveError" GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <Button text="Add New" fx:id="addNewButton" onAction="#addNewPassword"
-                    GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                    styleClass="custom-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="7"/>
             <Button text="Save" fx:id="saveButton" onAction="#savePasswordsToFile"
-                    GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                    disable="true"
+                    styleClass="custom-button"
+                    GridPane.columnIndex="0" GridPane.rowIndex="8"/>
         </GridPane>
 
         <!--        LIST VIEW -->
         <GridPane
                 xmlns:fx="http://javafx.com/fxml" alignment="center"
                 GridPane.rowIndex="0" GridPane.columnIndex="1">
-            <Label text="All Passwords"
-                   GridPane.columnIndex="0"
-                   GridPane.rowIndex="0"/>
+            <GridPane.margin>
+                <Insets top="22" />
+            </GridPane.margin>
+<!--            <Label text="All Passwords:"-->
+<!--                   GridPane.columnIndex="0"-->
+<!--                   GridPane.rowIndex="0"/>-->
             <ListView fx:id="passwordsListView"
-                      maxHeight="240"
-            />
+                      maxHeight="260"
+                      GridPane.columnIndex="0"
+                      GridPane.rowIndex="0" />
         </GridPane>
     </GridPane>
 </GridPane>

@@ -1,7 +1,5 @@
 .root {
     -fx-background-color: #ccc;
-    /*-fx-border-color: #8458B3;*/
-    /*-fx-border-width: 1px;*/
 }
 
 .label {
@@ -16,8 +14,7 @@
 }
 
 
-
-#signInButton {
+.custom-button {
     -fx-text-fill: white;
     -fx-padding: 4 16 4 16;
     -fx-background-color: #369;
@@ -25,10 +22,10 @@
     -fx-font-size: 1.1em;
     -fx-background-radius: 8px;
 }
-#signInButton:hover {
+.custom-button:hover {
     -fx-background-color: #169fff;
 
 }
-#signInButton:pressed {
+.custom-button:pressed {
     -fx-background-color: #369;
 }

@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("views/root.fxml"));
         primaryStage.setTitle("Password Keychain");
         root.getStylesheets().add("./javafx/resources/styles.css");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 400));
         primaryStage.show();
     }
 
