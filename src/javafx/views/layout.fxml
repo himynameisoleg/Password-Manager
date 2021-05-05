@@ -1,14 +1,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.text.Text?>
-
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
+
 <GridPane
         fx:id="layout"
         fx:controller="javafx.controllers.LayoutController"
@@ -64,9 +61,10 @@
                 xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
                 GridPane.rowIndex="0" GridPane.columnIndex="0">
             <GridPane.margin>
-                <Insets right="30" />
+                <Insets right="30"/>
             </GridPane.margin>
 
+            <!--            NEW PASSWORD INPUT-->
             <Label text="Name: "
                    GridPane.rowIndex="0"/>
             <TextField
@@ -86,7 +84,7 @@
                     GridPane.rowIndex="5"/>
 
 
-            <Label fx:id="saveError" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label fx:id="saveError" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
             <Button text="Add New" fx:id="addNewButton" onAction="#addNewPassword"
                     styleClass="custom-button"
                     GridPane.columnIndex="0" GridPane.rowIndex="7"/>
@@ -96,20 +94,18 @@
                     GridPane.columnIndex="0" GridPane.rowIndex="8"/>
         </GridPane>
 
-        <!--        LIST VIEW -->
+        <!--       PASSWORD LIST VIEW -->
         <GridPane
                 xmlns:fx="http://javafx.com/fxml" alignment="center"
                 GridPane.rowIndex="0" GridPane.columnIndex="1">
             <GridPane.margin>
-                <Insets top="22" />
+                <Insets top="24"/>
             </GridPane.margin>
-<!--            <Label text="All Passwords:"-->
-<!--                   GridPane.columnIndex="0"-->
-<!--                   GridPane.rowIndex="0"/>-->
+
             <ListView fx:id="passwordsListView"
                       maxHeight="260"
                       GridPane.columnIndex="0"
-                      GridPane.rowIndex="0" />
+                      GridPane.rowIndex="0"/>
         </GridPane>
     </GridPane>
 </GridPane>

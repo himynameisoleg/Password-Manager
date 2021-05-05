@@ -56,11 +56,13 @@ public class LayoutController {
                 JSONArray passwords = (JSONArray) passwordObj.get("passwords");
                 passwords.forEach(p -> passwordModel.getPasswordsList().add((JSONObject) p));
 
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+
             } catch (ParseException pe) {
-                System.out.println(pe.getMessage());
+                System.out.println("Parsine exception: " + pe.getMessage());
+            } catch (IOException ex) {
+                System.out.println("IO Excepton" + ex.getMessage());
             }
+
         }
 
         public void savePasswordsToFile() {

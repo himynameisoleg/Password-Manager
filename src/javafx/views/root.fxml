@@ -1,20 +1,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.text.Text?>
-
 <GridPane fx:controller="javafx.controllers.Controller"
+          fx:id="root"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <padding>
         <Insets top="60" right="60" bottom="40" left="40"/>
     </padding>
 
-
-<!--    LOGIN SECTION -->
+    <!--    LOGIN SECTION -->
     <fx:include source="layout.fxml"
                 GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 

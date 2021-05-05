@@ -1,19 +1,24 @@
 package javafx.controllers;
 
-import javafx.event.ActionEvent;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Controller {
+    @FXML
+    private GridPane root;
+
+    public Controller() {
+        loginAnimation();
+    }
+
+    public void loginAnimation() {
+        FadeTransition fade = new FadeTransition(Duration.millis(1000), root);
+        fade.setFromValue(0.0);
+        fade.setToValue(1.0);
+        fade.play();
+    }
 
 }
