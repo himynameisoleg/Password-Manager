@@ -29,7 +29,7 @@
         </Label>
 
         <!--   PASSWORD  -->
-        <Label text="Master Password:"
+        <Label text="Master Password: *(hint:CS420)"
                fx:id="passwordLabel"
                GridPane.columnIndex="0"
                GridPane.rowIndex="1"/>
@@ -72,7 +72,7 @@
             <PasswordField
                     GridPane.rowIndex="5"/>
 
-            <Button text="Add New" fx:id="addNewButton" onAction="#addPasswordToFile"
+            <Button text="Add New" fx:id="addNewButton" onAction="#addPasswordsToFile"
                     GridPane.columnIndex="0" GridPane.rowIndex="6"/>
         </GridPane>
 
