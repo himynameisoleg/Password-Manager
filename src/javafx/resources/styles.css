@@ -1,0 +1,34 @@
+.root {
+    -fx-background-color: #ccc;
+    /*-fx-border-color: #8458B3;*/
+    /*-fx-border-width: 1px;*/
+}
+
+.label {
+    -fx-text-fill: #494d5f;
+}
+
+#appTitle {
+    -fx-font-family: "Arial Black";
+    -fx-font-size: 1.6em;
+    -fx-text-fill: #494d5f;
+    -fx-font-weight: bold;
+}
+
+
+
+#signInButton {
+    -fx-text-fill: white;
+    -fx-padding: 4 16 4 16;
+    -fx-background-color: #369;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-background-radius: 8px;
+}
+#signInButton:hover {
+    -fx-background-color: #169fff;
+
+}
+#signInButton:pressed {
+    -fx-background-color: #369;
+}

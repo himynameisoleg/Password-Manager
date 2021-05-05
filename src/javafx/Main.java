@@ -6,10 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -17,10 +13,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
-        primaryStage.setTitle("Password Manager");
-        root.getStylesheets().add("./javafx/resources/layout.css");
-        primaryStage.setScene(new Scene(root, 400, 600));
+        Parent root = FXMLLoader.load(getClass().getResource("views/root.fxml"));
+        primaryStage.setTitle("Password Keychain");
+        root.getStylesheets().add("./javafx/resources/styles.css");
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
