@@ -9,8 +9,9 @@
 
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<GridPane fx:controller="javafx.controllers.LayoutController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<GridPane
+        fx:controller="javafx.controllers.LayoutController"
+        xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
 
     <!--    LOGIN SECTION-->
     <GridPane
@@ -53,40 +54,45 @@
             fx:id="addNewGrid"
             visible="false"
             GridPane.rowIndex="0" GridPane.columnIndex="0"
-            xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+            alignment="center" hgap="10" vgap="10">
 
+        <!--        FORM SECTION  -->
         <GridPane
                 xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
                 GridPane.rowIndex="0" GridPane.columnIndex="0">
 
-            <Label text="Website:"
+            <Label text="Website: "
                    GridPane.rowIndex="0"/>
             <TextField
+                    fx:id="addWebsiteField"
                     GridPane.rowIndex="1"/>
             <Label text="Username:"
                    GridPane.rowIndex="2"/>
             <TextField
+                    fx:id="addUsernameField"
                     GridPane.rowIndex="3"/>
             <Label text="Password:"
                    GridPane.rowIndex="4"/>
             <PasswordField
+                    fx:id="addPasswordField"
                     GridPane.rowIndex="5"/>
 
-            <Button text="Add New" fx:id="addNewButton" onAction="#addPasswordsToFile"
+            <Button text="Add New" fx:id="addNewButton" onAction="#addNewPassword"
                     GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <Button text="Save" fx:id="saveButton" onAction="#savePasswordsToFile"
+                    GridPane.columnIndex="1" GridPane.rowIndex="6"/>
         </GridPane>
 
+        <!--        LIST VIEW -->
         <GridPane
                 xmlns:fx="http://javafx.com/fxml" alignment="center"
                 GridPane.rowIndex="0" GridPane.columnIndex="1">
             <Label text="All Passwords"
                    GridPane.columnIndex="0"
                    GridPane.rowIndex="0"/>
-            <ScrollPane
-                    maxHeight="240"
-                    fitToWidth="true">
-                <ListView fx:id="passwordsListView"/>
-            </ScrollPane>
+            <ListView fx:id="passwordsListView"
+                      maxHeight="240"
+            />
         </GridPane>
     </GridPane>
 </GridPane>
