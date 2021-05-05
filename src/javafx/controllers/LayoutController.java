@@ -1,5 +1,6 @@
 package javafx.controllers;
 
+import javafx.models.PasswordModel;
 import javafx.scene.control.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,9 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LayoutController {
-    private final String MASTER_PASSWORD = "CS420";
-    private String masterPasswordMD5;
-    private ArrayList<JSONObject> passwordList;
+    PasswordModel passwordModel;
+//    TODO INNER CLASS
 
     @FXML
     private GridPane loginGrid;
@@ -53,10 +53,11 @@ public class LayoutController {
 
     public LayoutController() {
         getPasswordsFromFile();
+        passwordModel = new PasswordModel();
     }
 
     public void handleSignIn() {
-        if (passwordField.getText().equals(MASTER_PASSWORD)) {
+        if (passwordField.getText().equals(passwordModel.getMASTER_PASSWORD())) {
             addPasswordsInListView();
             loginGrid.setVisible(false);
             addNewGrid.setVisible(true);
@@ -67,7 +68,6 @@ public class LayoutController {
     }
 
     public void getPasswordsFromFile() {
-        passwordList = new ArrayList<>();
         File file = new File("./src/javafx/passwords.json");
         JSONParser parser = new JSONParser();
 
@@ -76,7 +76,7 @@ public class LayoutController {
             JSONObject passwordObj = (JSONObject) parsed;
 
             JSONArray passwords = (JSONArray) passwordObj.get("passwords");
-            passwords.forEach(p -> passwordList.add((JSONObject) p));
+            passwords.forEach(p -> passwordModel.getPasswordsList().add((JSONObject) p));
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -89,8 +89,8 @@ public class LayoutController {
         JSONObject json = new JSONObject();
         JSONArray arr = new JSONArray();
 
-        json.put("masterPassword", encryptPassword(MASTER_PASSWORD));
-        passwordList.forEach(p -> arr.add(p));
+        json.put("masterPassword", encryptPassword(passwordModel.getMASTER_PASSWORD()));
+        passwordModel.getPasswordsList().forEach(p -> arr.add(p));
 
         json.put("passwords", arr);
 
@@ -112,7 +112,8 @@ public class LayoutController {
     public void addPasswordsInListView() {
         passwordsListView.getItems().clear();
 
-        passwordList.forEach(p -> {
+
+        passwordModel.getPasswordsList().forEach(p -> {
             String website = (String) p.get("name");
             String username = (String) p.get("login");
             String password = (String) p.get("password");
@@ -132,7 +133,7 @@ public class LayoutController {
             item.put("login", addLoginField.getText());
             item.put("password", addPasswordField.getText());
 
-            passwordList.add(item);
+            passwordModel.getPasswordsList().add(item);
 
             addNameField.clear();
             addLoginField.clear();
